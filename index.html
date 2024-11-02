@@ -38,7 +38,7 @@
       color: #ffffff;
       font-size: 1.2rem;
       border-radius: 15px 15px 0 0;
-      box-sizing: border-box; /* Ensure padding does not affect width */
+      box-sizing: border-box;
     }
 
     .wallet-balance {
@@ -50,10 +50,11 @@
       color: #47e5bc;
       cursor: pointer;
       transition: color 0.3s;
-      padding: 5px 10px; /* Adding padding for better appearance */
-      border: none; /* No border for button */
-      border-radius: 10px; /* Rounded corners for button */
-      background-color: transparent; /* Transparent background */
+      padding: 5px 10px;
+      border: none;
+      border-radius: 10px;
+      background-color: transparent;
+      outline: none;
     }
 
     .top-up-btn:hover {
@@ -131,6 +132,7 @@
       font-size: 1rem;
       font-weight: bold;
       transition: transform 0.2s, background-color 0.2s;
+      outline: none;
     }
 
     /* Hover effect for desktop */
@@ -141,10 +143,11 @@
       }
     }
 
-    /* Disable hover effect on mobile */
+    /* Active state for mobile and touch devices */
     @media (hover: none) {
-      .btn {
-        background-color: #47e5bc;
+      .btn:active {
+        background-color: #ffd700;
+        color: #2e3a59;
       }
     }
 
@@ -219,7 +222,6 @@
 
     function topUp() {
       alert("Redirecting to payment page...");
-      // Simulate a payment action and return to game
       updateWallet(100); // Add points after a top-up
     }
 
@@ -263,7 +265,6 @@
       card.classList.add("flipped");
       displayBanner(result, displayMessage);
 
-      // Disable buttons during message display
       anderButton.disabled = true;
       bharButton.disabled = true;
 
