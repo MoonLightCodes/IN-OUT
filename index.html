@@ -1,290 +1,298 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Card Flip Game</title>
-  <style>
-    body {
-      height: 100vh;
-      margin: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background-color: #2e3a59;
-      overflow: hidden;
-    }
-
-    .game-container {
-      width: 90%;
-      max-width: 400px;
-      height: 80%;
-      border: 3px solid #ffd700;
-      border-radius: 15px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      background-color: rgba(45, 45, 45, 0.8);
-      position: relative;
-    }
-
-    .wallet-container {
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 10px 20px;
-      background-color: #1c1f33;
-      color: #ffffff;
-      font-size: 1.2rem;
-      border-radius: 15px 15px 0 0;
-      box-sizing: border-box;
-    }
-
-    .wallet-balance {
-      font-weight: bold;
-    }
-
-    .top-up-btn {
-      font-size: 1.5rem;
-      color: #47e5bc;
-      cursor: pointer;
-      transition: color 0.3s;
-      padding: 5px 10px;
-      border: none;
-      border-radius: 10px;
-      background-color: transparent;
-      outline: none;
-    }
-
-    .top-up-btn:hover {
-      color: #ffd700;
-    }
-
-    .dealer {
-      height: 50%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      perspective: 1000px;
-      margin-top: 10px;
-    }
-
-    .card {
-      width: 100px;
-      height: 150px;
-      margin: 10px;
-      border: 2px solid #ffd700;
-      border-radius: 15px;
-      background-size: cover;
-      background-position: center;
-      transition: transform 0.6s;
-      transform-style: preserve-3d;
-      position: relative;
-    }
-
-    .card.flipped {
-      transform: rotateY(180deg);
-    }
-
-    .card-front,
-    .card-back {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      backface-visibility: hidden;
-      border-radius: 15px;
-    }
-
-    .card-front {
-      background-image: url("back.jpeg");
-      background-size: cover;
-      background-position: center;
-    }
-
-    .card-back {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #ffffff;
-      font-size: 1.5rem;
-      background-color: #1c1f33;
-      transform: rotateY(180deg);
-    }
-
-    .controls {
-      height: 50px;
-      display: flex;
-      align-items: center;
-      justify-content: space-around;
-      padding: 20px;
-      width: 100%;
-    }
-
-    .btn {
-      height: 40px;
-      width: 40%;
-      border-radius: 25px;
-      border: none;
-      color: #ffffff;
-      background-color: #47e5bc;
-      cursor: pointer;
-      font-size: 1rem;
-      font-weight: bold;
-      transition: transform 0.2s, background-color 0.2s;
-      outline: none;
-    }
-
-    /* Hover effect for desktop */
-    @media (hover: hover) {
-      .btn:hover {
-        background-color: #ffd700;
-        color: #2e3a59;
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Card Flip Game</title>
+    <style>
+      body {
+        height: 100vh;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #2e3a59;
+        overflow: hidden;
       }
-    }
 
-    /* Active state for mobile and touch devices */
-    @media (hover: none) {
-      .btn:active {
-        background-color: #ffd700;
-        color: #2e3a59;
-      }
-    }
-
-    .message {
-      font-size: 1.2rem;
-      color: #ffffff;
-      margin-top: 10px;
-      text-align: center;
-    }
-
-    .message-bar {
-      width: 100%;
-      height: 5px;
-      background-color: #ffd700;
-      animation: shrink 2s linear;
-      border-radius: 15px;
-    }
-
-    @keyframes shrink {
-      from {
-        width: 100%;
-      }
-      to {
-        width: 0;
-      }
-    }
-
-    @media (max-width: 580px) {
       .game-container {
         width: 90%;
+        max-width: 400px;
         height: 80%;
+        border: 3px solid #ffd700;
+        border-radius: 15px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: rgba(45, 45, 45, 0.8);
+        position: relative;
       }
+
+      .wallet-container {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 20px;
+        background-color: #1c1f33;
+        color: #ffffff;
+        font-size: 1.2rem;
+        border-radius: 15px 15px 0 0;
+        box-sizing: border-box;
+      }
+
+      .wallet-balance {
+        font-weight: bold;
+      }
+
+      .top-up-btn {
+        font-size: 1.5rem;
+        color: #47e5bc;
+        cursor: pointer;
+        transition: color 0.3s;
+        padding: 5px 10px;
+        border: none;
+        border-radius: 10px;
+        background-color: transparent;
+        outline: none;
+      }
+
+      .top-up-btn:hover {
+        color: #ffd700;
+      }
+
+      .dealer {
+        height: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        perspective: 1000px;
+        margin-top: 10px;
+      }
+
       .card {
-        width: 80px;
-        height: 120px;
+        width: 100px;
+        height: 150px;
+        margin: 10px;
+        border: 2px solid #ffd700;
+        border-radius: 15px;
+        background-size: cover;
+        background-position: center;
+        transition: transform 0.6s;
+        transform-style: preserve-3d;
+        position: relative;
       }
-    }
-  </style>
-</head>
-<body oncontextmenu="return false;">
-  <div class="game-container">
-    <div class="wallet-container">
-      <div>Wallet: <span id="wallet" class="wallet-balance">1000</span> points</div>
-      <button class="top-up-btn" onclick="topUp()">+</button>
-    </div>
-    <div class="dealer">
-      <div class="card" id="cd">
-        <div class="card-front"></div>
-        <div class="card-back" id="card-back"></div>
+
+      .card.flipped {
+        transform: rotateY(180deg);
+      }
+
+      .card-front,
+      .card-back {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        backface-visibility: hidden;
+        border-radius: 15px;
+      }
+
+      .card-front {
+        background-image: url("back.jpeg");
+        background-size: cover;
+        background-position: center;
+      }
+
+      .card-back {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #ffffff;
+        font-size: 1.5rem;
+        background-color: #1c1f33;
+        transform: rotateY(180deg);
+      }
+
+      .controls {
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        padding: 20px;
+        width: 100%;
+      }
+
+      .btn {
+        height: 40px;
+        width: 40%;
+        border-radius: 25px;
+        border: none;
+        color: #ffffff;
+        background-color: #47e5bc;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: bold;
+        transition: transform 0.2s, background-color 0.2s;
+        outline: none;
+      }
+
+      /* Hover effect for desktop */
+      @media (hover: hover) {
+        .btn:hover {
+          background-color: #ffd700;
+          color: #2e3a59;
+        }
+      }
+
+      /* Active state for mobile and touch devices */
+      @media (hover: none) {
+        .btn:active {
+          background-color: #ffd700;
+          color: #2e3a59;
+        }
+      }
+
+      .message {
+        font-size: 1.1rem;
+        width: 50%;
+        color: #ffffff;
+        margin-top: 10px;
+        text-align: center;
+      }
+
+      .message-bar {
+        width: 0%;
+        height: 5px;
+        background-color: #ffd700;
+        animation: shrink 2s linear;
+        border-radius: 15px;
+        margin: 2px 10px;
+      }
+
+      @keyframes shrink {
+        from {
+          width: 90%;
+        }
+        to {
+          width: 0;
+        }
+      }
+
+      @media (max-width: 580px) {
+        .game-container {
+          width: 90%;
+          height: 80%;
+        }
+        .card {
+          width: 80px;
+          height: 120px;
+        }
+      }
+    </style>
+  </head>
+  <body oncontextmenu="return false;">
+    <div class="game-container">
+      <div class="wallet-container">
+        <div>
+          Wallet 💵 :  <span id="wallet" class="wallet-balance">1000</span> points
+        </div>
+        <button class="top-up-btn" onclick="topUp()">+</button>
       </div>
+      <div class="dealer">
+        <div class="card" id="cd">
+          <div class="card-front"></div>
+          <div class="card-back" id="card-back"></div>
+        </div>
+      </div>
+      <div class="controls">
+        <button class="btn" id="an" onclick="playGame('ander')">IN</button>
+        <button class="btn" id="br" onclick="playGame('bhar')">OUT</button>
+      </div>
+      <div id="message" class="message"></div>
     </div>
-    <div class="controls">
-      <button class="btn" id="an" onclick="playGame('ander')">IN</button>
-      <button class="btn" id="br" onclick="playGame('bhar')">OUT</button>
-    </div>
-    <div id="message" class="message"></div>
-  </div>
 
-  <script>
-    let walletBalance = 1000;
-    const walletElement = document.getElementById("wallet");
-    const messageElement = document.getElementById("message");
-    const card = document.querySelector("#cd");
-    const cardBack = document.querySelector("#card-back");
-    const anderButton = document.querySelector("#an");
-    const bharButton = document.querySelector("#br");
+    <script>
+      let walletBalance = 1000;
+      const walletElement = document.getElementById("wallet");
+      const messageElement = document.getElementById("message");
+      const card = document.querySelector("#cd");
+      const cardBack = document.querySelector("#card-back");
+      const anderButton = document.querySelector("#an");
+      const bharButton = document.querySelector("#br");
 
-    function updateWallet(amount) {
-      walletBalance += amount;
-      walletElement.innerText = walletBalance;
-    }
-
-    function topUp() {
-      alert("Redirecting to payment page...");
-      updateWallet(100); // Add points after a top-up
-    }
-
-    function playGame(choice) {
-      if (walletBalance < 100) {
-        alert("Insufficient points to play! Please top up.");
-        return;
+      function updateWallet(amount) {
+        walletBalance += amount;
+        walletElement.innerText = walletBalance;
       }
 
-      updateWallet(-100);
-      const randomValue = Math.random();
-      let result, color, winAmount, displayMessage;
-
-      if (choice === "ander") {
-        if (randomValue <= 0.5) {
-          color = "coral";
-          result = "Won!";
-          winAmount = 200;
-          displayMessage = "+200";
-        } else {
-          color = "black";
-          result = "Loss!";
-          winAmount = 0;
-          displayMessage = "-100";
-        }
-      } else if (choice === "bhar") {
-        if (randomValue > 0.5) {
-          color = "coral";
-          result = "Won!";
-          winAmount = 200;
-          displayMessage = "+200";
-        } else {
-          color = "black";
-          result = "Loss!";
-          winAmount = 0;
-          displayMessage = "-100";
-        }
+      function topUp() {
+        alert("Redirecting to payment page...");
+        updateWallet(100); // Add points after a top-up
       }
 
-      cardBack.style.backgroundColor = color;
-      card.classList.add("flipped");
-      displayBanner(result, displayMessage);
+      function playGame(choice) {
+        if (walletBalance < 100) {
+          alert("Insufficient points to play! Please top up.");
+          return;
+        }
 
-      anderButton.disabled = true;
-      bharButton.disabled = true;
+        updateWallet(-100);
+        const randomValue = Math.random();
+        let result, color, winAmount, displayMessage;
 
-      setTimeout(() => {
-        updateWallet(winAmount);
-        resetGame();
-      }, 2000);
-    }
+        if (choice === "ander") {
+          if (randomValue <= 0.5) {
+            color = "red";
+            result = "Won!";
+            winAmount = 200;
+            displayMessage = "+200";
+          } else {
+            color = "black";
+            result = "Loss!";
+            winAmount = 0;
+            displayMessage = "-100";
+          }
+        } else if (choice === "bhar") {
+          if (randomValue > 0.5) {
+            color = "coral";
+            result = "Won!";
+            winAmount = 200;
+            displayMessage = "+200";
+          } else {
+            color = "black";
+            result = "Loss!";
+            winAmount = 0;
+            displayMessage = "-100";
+          }
+        }
 
-    function displayBanner(result, displayMessage) {
-      messageElement.innerHTML = `<div>${result} ${displayMessage}</div><div class="message-bar"></div>`;
-    }
+        cardBack.style.backgroundColor = color;
+        card.classList.add("flipped");
+        displayBanner(result, displayMessage);
 
-    function resetGame() {
-      card.classList.remove("flipped");
-      cardBack.style.backgroundColor = "#1c1f33";
-      messageElement.innerHTML = "";
-      anderButton.disabled = false;
-      bharButton.disabled = false;
-    }
-  </script>
-</body>
+        anderButton.disabled = true;
+        bharButton.disabled = true;
+
+        setTimeout(() => {
+          updateWallet(winAmount);
+          resetGame();
+        }, 2000);
+      }
+
+      function displayBanner(result, displayMessage) {
+        messageElement.innerHTML = `<div style="background-color: #f32308cf; border-radius: 20px; padding: 5px; text-align: center;">
+      ${result} ${displayMessage}
+    </div>
+    <div class="message-bar"></div>
+  `;
+      }
+
+      function resetGame() {
+        card.classList.remove("flipped");
+        cardBack.style.backgroundColor = "#1c1f33";
+        messageElement.innerHTML = "";
+        anderButton.disabled = false;
+        bharButton.disabled = false;
+      }
+    </script>
+  </body>
 </html>
