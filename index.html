@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Card Flip Game</title>
   <style>
-    /* General body styling */
     body {
       height: 100vh;
       margin: 0;
@@ -13,10 +12,9 @@
       justify-content: center;
       align-items: center;
       background-color: #2e3a59;
-      font-family: Arial, sans-serif;
+      overflow: hidden;
     }
 
-    /* Game container styling */
     .game-container {
       width: 90%;
       max-width: 400px;
@@ -26,22 +24,21 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      background-color: rgba(20, 20, 20, 0.85);
+      background-color: rgba(45, 45, 45, 0.8);
       position: relative;
-      padding-top: 15px;
     }
 
-    /* Wallet container styling */
     .wallet-container {
-      width: 90%;
+      width: 100%;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 10px;
+      padding: 10px 20px;
       background-color: #1c1f33;
       color: #ffffff;
       font-size: 1.2rem;
-      border-radius: 15px;
+      border-radius: 15px 15px 0 0;
+      box-sizing: border-box; /* Ensure padding does not affect width */
     }
 
     .wallet-balance {
@@ -53,28 +50,33 @@
       color: #47e5bc;
       cursor: pointer;
       transition: color 0.3s;
+      padding: 5px 10px; /* Adding padding for better appearance */
+      border: none; /* No border for button */
+      border-radius: 10px; /* Rounded corners for button */
+      background-color: transparent; /* Transparent background */
     }
 
     .top-up-btn:hover {
       color: #ffd700;
     }
 
-    /* Dealer card and flip animation */
     .dealer {
       height: 50%;
       display: flex;
       justify-content: center;
       align-items: center;
-      margin: 10px;
       perspective: 1000px;
+      margin-top: 10px;
     }
 
     .card {
       width: 100px;
       height: 150px;
+      margin: 10px;
       border: 2px solid #ffd700;
       border-radius: 15px;
       background-size: cover;
+      background-position: center;
       transition: transform 0.6s;
       transform-style: preserve-3d;
       position: relative;
@@ -84,7 +86,8 @@
       transform: rotateY(180deg);
     }
 
-    .card-front, .card-back {
+    .card-front,
+    .card-back {
       position: absolute;
       width: 100%;
       height: 100%;
@@ -95,6 +98,7 @@
     .card-front {
       background-image: url("back.jpeg");
       background-size: cover;
+      background-position: center;
     }
 
     .card-back {
@@ -107,60 +111,56 @@
       transform: rotateY(180deg);
     }
 
-    /* Control buttons styling */
     .controls {
       height: 50px;
       display: flex;
+      align-items: center;
       justify-content: space-around;
       padding: 20px;
       width: 100%;
     }
 
     .btn {
+      height: 40px;
       width: 40%;
-      padding: 10px;
-      font-size: 1rem;
-      font-weight: bold;
+      border-radius: 25px;
+      border: none;
       color: #ffffff;
       background-color: #47e5bc;
-      border: none;
-      border-radius: 15px;
       cursor: pointer;
-      transition: background-color 0.2s;
+      font-size: 1rem;
+      font-weight: bold;
+      transition: transform 0.2s, background-color 0.2s;
     }
 
-    .btn:hover {
-      background-color: #ffd700;
-      color: #2e3a59;
+    /* Hover effect for desktop */
+    @media (hover: hover) {
+      .btn:hover {
+        background-color: #ffd700;
+        color: #2e3a59;
+      }
     }
 
-    .btn:disabled {
-      background-color: #555;
-      cursor: not-allowed;
+    /* Disable hover effect on mobile */
+    @media (hover: none) {
+      .btn {
+        background-color: #47e5bc;
+      }
     }
 
-    /* Result message banner */
-    .message-banner {
-      position: absolute;
-      top: 50px;
-      width: 90%;
-      padding: 10px;
-      text-align: center;
+    .message {
       font-size: 1.2rem;
-      color: white;
-      background-color: #222;
-      border-radius: 10px;
-      border: 2px solid #ffd700;
-      display: none;
-      flex-direction: column;
+      color: #ffffff;
+      margin-top: 10px;
+      text-align: center;
     }
 
-    /* Shrinking bar animation */
-    .shrinking-bar {
+    .message-bar {
+      width: 100%;
       height: 5px;
-      background-color: #ff5722;
+      background-color: #ffd700;
       animation: shrink 2s linear;
-      border-radius: 5px;
+      border-radius: 15px;
     }
 
     @keyframes shrink {
@@ -168,7 +168,18 @@
         width: 100%;
       }
       to {
-        width: 0%;
+        width: 0;
+      }
+    }
+
+    @media (max-width: 580px) {
+      .game-container {
+        width: 90%;
+        height: 80%;
+      }
+      .card {
+        width: 80px;
+        height: 120px;
       }
     }
   </style>
@@ -177,7 +188,7 @@
   <div class="game-container">
     <div class="wallet-container">
       <div>Wallet: <span id="wallet" class="wallet-balance">1000</span> points</div>
-      <div class="top-up-btn" onclick="topUpWallet()">+</div>
+      <button class="top-up-btn" onclick="topUp()">+</button>
     </div>
     <div class="dealer">
       <div class="card" id="cd">
@@ -186,60 +197,75 @@
       </div>
     </div>
     <div class="controls">
-      <button class="btn" id="in-btn" onclick="playGame('IN')">IN</button>
-      <button class="btn" id="out-btn" onclick="playGame('OUT')">OUT</button>
+      <button class="btn" id="an" onclick="playGame('ander')">IN</button>
+      <button class="btn" id="br" onclick="playGame('bhar')">OUT</button>
     </div>
-    <div id="message-banner" class="message-banner">
-      <div id="banner-text">You Won! +200</div>
-      <div class="shrinking-bar"></div>
-    </div>
+    <div id="message" class="message"></div>
   </div>
 
   <script>
     let walletBalance = 1000;
-
     const walletElement = document.getElementById("wallet");
-    const messageBanner = document.getElementById("message-banner");
-    const bannerText = document.getElementById("banner-text");
-    const card = document.getElementById("cd");
-    const cardBack = document.getElementById("card-back");
-    const inButton = document.getElementById("in-btn");
-    const outButton = document.getElementById("out-btn");
+    const messageElement = document.getElementById("message");
+    const card = document.querySelector("#cd");
+    const cardBack = document.querySelector("#card-back");
+    const anderButton = document.querySelector("#an");
+    const bharButton = document.querySelector("#br");
 
     function updateWallet(amount) {
       walletBalance += amount;
       walletElement.innerText = walletBalance;
     }
 
-    function topUpWallet() {
+    function topUp() {
       alert("Redirecting to payment page...");
-      // Placeholder for Razorpay integration in the backend
+      // Simulate a payment action and return to game
+      updateWallet(100); // Add points after a top-up
     }
 
     function playGame(choice) {
       if (walletBalance < 100) {
-        showBanner("Top up wallet");
+        alert("Insufficient points to play! Please top up.");
         return;
       }
 
       updateWallet(-100);
-
       const randomValue = Math.random();
-      let result, color, winAmount;
+      let result, color, winAmount, displayMessage;
 
-      if ((choice === "IN" && randomValue <= 0.5) || (choice === "OUT" && randomValue > 0.5)) {
-        color = "coral";
-        result = "You Won! +200";
-        winAmount = 200;
-      } else {
-        color = "black";
-        result = "You Lost! -100";
-        winAmount = 0;
+      if (choice === "ander") {
+        if (randomValue <= 0.5) {
+          color = "coral";
+          result = "Won!";
+          winAmount = 200;
+          displayMessage = "+200";
+        } else {
+          color = "black";
+          result = "Loss!";
+          winAmount = 0;
+          displayMessage = "-100";
+        }
+      } else if (choice === "bhar") {
+        if (randomValue > 0.5) {
+          color = "coral";
+          result = "Won!";
+          winAmount = 200;
+          displayMessage = "+200";
+        } else {
+          color = "black";
+          result = "Loss!";
+          winAmount = 0;
+          displayMessage = "-100";
+        }
       }
 
       cardBack.style.backgroundColor = color;
       card.classList.add("flipped");
-      showBanner(result);
+      displayBanner(result, displayMessage);
+
+      // Disable buttons during message display
+      anderButton.disabled = true;
+      bharButton.disabled = true;
 
       setTimeout(() => {
         updateWallet(winAmount);
@@ -247,22 +273,16 @@
       }, 2000);
     }
 
-    function showBanner(message) {
-      bannerText.innerText = message;
-      messageBanner.style.display = "flex";
-      inButton.disabled = true;
-      outButton.disabled = true;
-
-      setTimeout(() => {
-        messageBanner.style.display = "none";
-        inButton.disabled = false;
-        outButton.disabled = false;
-      }, 2000);
+    function displayBanner(result, displayMessage) {
+      messageElement.innerHTML = `<div>${result} ${displayMessage}</div><div class="message-bar"></div>`;
     }
 
     function resetGame() {
       card.classList.remove("flipped");
       cardBack.style.backgroundColor = "#1c1f33";
+      messageElement.innerHTML = "";
+      anderButton.disabled = false;
+      bharButton.disabled = false;
     }
   </script>
 </body>
