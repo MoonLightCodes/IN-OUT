@@ -190,7 +190,7 @@
     </style>
   </head>
   <body oncontextmenu="return false;">
-    <div class="game-container">
+    <div class="game-container" id="gameContainer">
       <div class="wallet-container">
         <div>
           Wallet 💵 :  <span id="wallet" class="wallet-balance">1000</span> points
@@ -218,6 +218,11 @@
       const cardBack = document.querySelector("#card-back");
       const anderButton = document.querySelector("#an");
       const bharButton = document.querySelector("#br");
+
+      // Prevent scrolling on touch devices
+      document.getElementById("gameContainer").addEventListener("touchmove", function(event) {
+        event.preventDefault();
+      }, { passive: false });
 
       function updateWallet(amount) {
         walletBalance += amount;
